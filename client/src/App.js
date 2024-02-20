@@ -7,22 +7,22 @@ import AllRoutes from "./Components/AllRoutes";
 import DrawerSidebar from "./Components/LeftSidebar/DrawerSidebar";
 import CreateEditChanel from "./Pages/Chanel/CreateEditChanel";
 import { useDispatch } from "react-redux";
-// import { fetchAllChanel } from "./actions/chanelUser";
-// import VideoUpload from "./Pages/VideoUpload/VideoUpload";
-// import { getAllVideo } from "./actions/video";
+import { fetchAllChanel } from "./actions/chanelUser";
+import VideoUpload from "./Pages/VideoUpload/VideoUpload";
+import { getAllVideo } from "./actions/video";
 // import { getAlllikedVideo } from "./actions/likedVideo";
 // import { getAllwatchLater } from "./actions/watchLater";
 // import { getAllHistory } from "./actions/History";
 function App() {
   const dispatch = useDispatch();
   
-  // useEffect(() => {
-  //   dispatch(fetchAllChanel());
-  //   dispatch(getAllVideo());
-  //   dispatch(getAlllikedVideo());
-  //   dispatch(getAllwatchLater());
-  //   dispatch(getAllHistory());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchAllChanel());
+    dispatch(getAllVideo());
+    // dispatch(getAlllikedVideo());
+    // dispatch(getAllwatchLater());
+    // dispatch(getAllHistory());
+  }, [dispatch]);
 
   const [toggleDrawerSidebar, setToggleDrawerSidebar] = useState({
     display: "none",
@@ -42,10 +42,10 @@ function App() {
   const [EditCreateChanelBtn, setEditCreateChanelBtn] = useState(false);
   return (
     <Router>
-      {/* {vidUploadPage && <VideoUpload  setVidUploadPage={setVidUploadPage}/>}
+      {vidUploadPage && <VideoUpload  setVidUploadPage={setVidUploadPage}/>}
       {EditCreateChanelBtn && (
         <CreateEditChanel setEditCreateChanelBtn={setEditCreateChanelBtn} />
-      )} */}
+      )}
       <Navbar
         setEditCreateChanelBtn={setEditCreateChanelBtn}
         toggleDrawer={toggleDrawer}
