@@ -1,29 +1,26 @@
 import React from 'react'
 import ShwoVideoList from '../ShowVideoList/ShowVideoList'
 
-function WHLVideoList({ page,videoList }) {
+function WHLVideoList({ page, CurrentUser,videoList }) {
   // console.log(videoList)
   return (
     <>
-      {/* { CurrentUser ?(<> */}
+     { CurrentUser ?(<>
      {
-            // ?.data?.filter(q=>q?.Viewer === CurrentUser).reverse()
-              videoList.map(m=>{
+              videoList?.data?.filter(q=>q?.Viewer === CurrentUser).reverse().map(m=>{
                 return(
                     <>
-                    <ShwoVideoList videoId={m._id} key={m._id}
-                    //videoId={m?.videoId} key={m?._id}
-                    />
+                    <ShwoVideoList videoId={m?.videoId} key={m?._id}/>
                     </>
     
                 )
             })
      }
-      {/* </>) :(<> 
+      </>) :(<> 
       <h2 style={{color:"white"}}>Plz Login To Watch Your {page} </h2>
       </>)
 
-     } */}
+     }
     </>
   )
 }

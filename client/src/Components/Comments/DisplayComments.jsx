@@ -1,32 +1,46 @@
-import React,{useState} from 'react'
+import moment from "moment";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComment, editComment } from "../../actions/comments";
 
-function DisplayComments({cId,commentBody,userCommented}) {
-    const [Edit, setEdit] = useState(false);
-    const [cmtBdy, setcmtBdy] = useState("");
+import "./comments.css";
+function DisplayComments({
+  cId,
+  commentBody,
+  userId,
+  commentOn,
+  userCommented,
+}) {
+  const [Edit, setEdit] = useState(false);
+  const [cmtBdy, setcmtBdy] = useState("");
   const [cmtId, setcmtId] = useState("");
-    const handleEdit = (ctId,ctBdy) => {
-        setEdit(true);
-        setcmtId(ctId);
-        setcmtBdy(ctBdy);
-      };
-      const handleDel=(id)=>{
-        //dispatch(deleteComment(id))
-      }
-      const handleOnSubmit = (e) => {
-        e.preventDefault();
-        // if (!cmtBdy) {
-        //   alert("Type Your comments");
-        // } else {
-        //   dispatch(
-        //     editComment({
-        //       id: cmtId,
-        //       commentBody: cmtBdy,
-        //     })
-        //   );
-        //   setcmtBdy("");
-        // }
-        setEdit(false);
-      };
+  const CurrentUser = useSelector((state) => state?.currentUserReducer);
+
+  const handleEdit = (ctId, ctBdy) => {
+    setEdit(true);
+    setcmtId(ctId);
+    setcmtBdy(ctBdy);
+  };
+
+  const dispatch = useDispatch();
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    if (!cmtBdy) {
+      alert("Type Your comments");
+    } else {
+      dispatch(
+        editComment({
+          id: cmtId,
+          commentBody: cmtBdy,
+        })
+      );
+      setcmtBdy("");
+    }
+    setEdit(false);
+  };
+  const handleDel=(id)=>{
+    dispatch(deleteComment(id))
+  }
   return (
     <>
       {Edit ? (
@@ -50,23 +64,20 @@ function DisplayComments({cId,commentBody,userCommented}) {
           </form>
         </>
       ) : (
-        <p className="comment_body">
-            {commentBody}
-            </p>
+        <p className="comment_body">{commentBody}</p>
       )}
       <p className="usercommented">
         {" "}
-        - {userCommented} commented 
-        {/* {moment(commentOn).fromNow()} */}
+        - {userCommented} commented {moment(commentOn).fromNow()}
       </p>
-      {/* {CurrentUser?.result._id === userId && ( */}
+      {CurrentUser?.result._id === userId && (
         <p className="EditDel_DisplayCommendt">
-          <i onClick={() => handleEdit( commentBody)}>Edit</i>
-          <i onClick={()=> handleDel()} >Delete</i>
+          <i onClick={() => handleEdit(cId, commentBody)}>Edit</i>
+          <i onClick={()=> handleDel(cId)} >Delete</i>
         </p>
-      {/* )} */}
+      )}
     </>
-  )
+  );
 }
 
-export default DisplayComments
+export default DisplayComments;

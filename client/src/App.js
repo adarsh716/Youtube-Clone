@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { fetchAllChanel } from "./actions/chanelUser";
 import VideoUpload from "./Pages/VideoUpload/VideoUpload";
 import { getAllVideo } from "./actions/video";
-// import { getAlllikedVideo } from "./actions/likedVideo";
+import { getAlllikedVideo } from "./actions/likedVideo";
 // import { getAllwatchLater } from "./actions/watchLater";
 // import { getAllHistory } from "./actions/History";
 function App() {
@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchAllChanel());
     dispatch(getAllVideo());
-    // dispatch(getAlllikedVideo());
+    dispatch(getAlllikedVideo());
     // dispatch(getAllwatchLater());
     // dispatch(getAllHistory());
   }, [dispatch]);

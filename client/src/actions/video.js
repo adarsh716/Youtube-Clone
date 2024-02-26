@@ -36,6 +36,7 @@ export const viewVideo=(ViewDate)=>async(dispatch)=>{
     const {id}=ViewDate;
     console.log(id)
     const {data}= await api.viewsVideo(id)
+    console.log(data)
     dispatch({type:'POST_VIEWS',data})
     dispatch(getAllVideo())
   } catch (error) {

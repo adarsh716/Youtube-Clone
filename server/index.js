@@ -5,6 +5,8 @@ import cors from 'cors';
 import bodyParser from "body-parser";
 import userRoutes from './routes/user.js';
 import videoRoutes from './routes/video.js';
+import commentsRoutes from './routes/comments.js';
+
 import path from 'path';
 
 const app = express();
@@ -22,7 +24,7 @@ app.use('/uploads',express.static(path.join('uploads')))
 
 app.use('/user', userRoutes);
 app.use('/video', videoRoutes);
-
+app.use('/comment',commentsRoutes);
 
 const DB_URL = process.env.DB_URL;
 

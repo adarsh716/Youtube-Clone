@@ -6,7 +6,7 @@ import moment from "moment";
 // import vid from "../../Components/Video/vid.mp4";
 import LikeWatchLaterSaveBtns from "./LikeWatchLaterSaveBtns";
 import "./VideoPage.css";
-// import { addToHistory } from "../../actions/History";
+import { addToHistory } from "../../actions/History";
 import { viewVideo } from "../../actions/video";
 function VideoPage() {
   const { vid } = useParams();
@@ -19,29 +19,30 @@ function VideoPage() {
 
   const vids = useSelector((state) => state.videoReducer);
   const vv = vids?.data?.filter((q) => q._id === vid)[0];
+  console.log(vv);
 
   const dispatch = useDispatch();
   const CurrentUser = useSelector((state) => state?.currentUserReducer);
 
-  // const handleHistory = () => {
-  //   dispatch(
-  //     addToHistory({
-  //       videoId: vid,
-  //       Viewer: CurrentUser?.result._id,
-  //     })
-  //   );
-  // };
-  // const handleViews=()=>{
-  //   dispatch( viewVideo({
-  //     id:vid
-  //   }))
-  // }
-  // useEffect(() => {
-  //   if (CurrentUser) {
-  //     handleHistory();
-  //   }
-  //   handleViews();
-  // }, []);
+  const handleHistory = () => {
+    dispatch(
+      addToHistory({
+        videoId: vid,
+        Viewer: CurrentUser?.result._id,
+      })
+    );
+  };
+  const handleViews=()=>{
+    dispatch( viewVideo({
+      id:vid
+    }))
+  }
+  useEffect(() => {
+    if (CurrentUser) {
+      handleHistory();
+    }
+    handleViews();
+  }, []);
   return (
     <>
       <div className="container_videoPage">
