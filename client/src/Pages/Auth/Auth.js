@@ -4,13 +4,15 @@ import { BiLogOut } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setCurrentUser } from "../../actions/currentUser";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Auth.css";
 function Auth({ User, setAuthBtn, setEditCreateChanelBtn }) {
 
   const dispatch = useDispatch();
   const onLogOutSuccess = () => {
     dispatch(setCurrentUser(null));
-    alert("Log Out SuccessFully");
+    toast.error("Log Out SuccessFully");
   };
   
   return (

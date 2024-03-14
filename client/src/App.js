@@ -46,10 +46,12 @@ function App() {
       {EditCreateChanelBtn && (
         <CreateEditChanel setEditCreateChanelBtn={setEditCreateChanelBtn} />
       )}
+      {window.location.pathname !== '/login' && (
       <Navbar
         setEditCreateChanelBtn={setEditCreateChanelBtn}
         toggleDrawer={toggleDrawer}
       />
+      )}
 
       <DrawerSidebar
         toggleDrawer={toggleDrawer}

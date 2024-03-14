@@ -39,11 +39,11 @@ function LikeWatchLaterSaveBtns({ vv, vid }) {
         (q) => q?.videoId === vid && q?.Viewer === CurrentUser?.result._id
       )
       .map((m) => setLikeBtn(true));
-    watchLaterList?.data
-      .filter(
-        (q) => q?.videoId === vid && q?.Viewer === CurrentUser?.result._id
-      )
-      .map((m) => setSAveVideo(true));
+    // watchLaterList?.data
+    //   .filter(
+    //     (q) => q?.videoId === vid && q?.Viewer === CurrentUser?.result._id
+    //   )
+    //   .map((m) => setSAveVideo(true));
   }, []);
 
   const toggleSavedVideo = () => {

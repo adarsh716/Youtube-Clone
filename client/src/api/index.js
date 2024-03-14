@@ -8,6 +8,7 @@ API.interceptors.request.use(req=>{
     return req;
 })
 
+export const register = (regData) => API.post("/user/register", regData);
 export const login = (authData) => API.post("/user/login", authData);
 
 export const updateChanelData = (id, updateData) =>
