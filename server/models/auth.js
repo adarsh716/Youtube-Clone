@@ -7,7 +7,8 @@ const userSchema = mongoose.Schema({
     desc:{type:String},
     attempt:{type:Number,max:5},
     blocked:{type:Boolean,default:false},
-    joinedOn:{type:Date,default:Date.now}
+    joinedOn:{type:Date,default:Date.now},
+    subscriberIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] 
 })
 
 export default mongoose.model("User",userSchema)
