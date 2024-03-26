@@ -7,7 +7,7 @@ import {likeVideoController,getAlllikeVideoController,deleteLikeVideoController}
 import {watchLaterController,getAllwatchLaterController,deletewatchLaterController} from '../controllers/watchLater.js'
 import {HistoryController,getAllHistoryController,deleteHistoryController} from '../controllers/History.js'
 import upload from '../Helpers/fileHelpers.js'
-// import auth from '../middleware/auth.js'
+import {auth,use} from '../middleware/auth.js'
 
 const routes=express.Router();
 

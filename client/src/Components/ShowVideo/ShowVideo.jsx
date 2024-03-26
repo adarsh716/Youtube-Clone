@@ -3,6 +3,10 @@ import {Link} from 'react-router-dom'
 import moment from 'moment'
 import './ShowVideo.css'
 function ShowVideo({vid}) {
+  if (!vid || !vid._id) {
+    // If vid is undefined or vid._id is undefined, return null or handle it accordingly
+    return null;
+  }
   console.log(vid)
   return (
     <>

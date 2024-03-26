@@ -4,3 +4,4 @@ export const setCurrentUser =(data)=>{
         payload:data
     }
 }
+

@@ -23,6 +23,7 @@ function Login() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
+      
       await dispatch(login(formData));
       toast.success("Login successful!");
       navigate("/"); // Use navigate instead of history.push

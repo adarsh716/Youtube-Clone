@@ -61,7 +61,7 @@ export const login = async (req, res) => {
             await users.findByIdAndUpdate(existingUser._id, { attempt: 0 });
 
             const token = generateToken(existingUser);
-
+            console.log(existingUser)
             res.status(200).json({ result: existingUser, token });
         } else {
             const updatedUser = await users.findByIdAndUpdate(existingUser._id, { $inc: { attempt: 1 } }, { new: true });
@@ -126,15 +126,15 @@ export const subscribeToUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        if (!user.subscribedChannels) {
-            user.subscribedChannels = []; 
+        if (!user.subscriberIds) {
+            user.subscriberIds = []; 
         }
 
-        if (user.subscribedChannels.includes(targetUserId)) {
+        if (user.subscriberIds.includes(targetUserId)) {
             return res.status(400).json({ message: "User is already subscribed to this channel" });
         }
 
-        user.subscribedChannels.push(targetUserId);
+        user.subscriberIds.push(targetUserId);
         await user.save();
 
         res.status(200).json({ message: "User subscribed to channel successfully" });
@@ -154,15 +154,15 @@ export const unsubscribeFromUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        if (!user.subscribedChannels) {
-            user.subscribedChannels = []; 
+        if (!user.subscriberIds) {
+            user.subscriberIds = []; 
         }
 
-        if (!user.subscribedChannels.includes(targetUserId)) {
+        if (!user.subscriberIds.includes(targetUserId)) {
             return res.status(400).json({ message: "User is not subscribed to this channel" });
         }
 
-        user.subscribedChannels = user.subscribedChannels.filter(channel => channel !== targetUserId);
+        user.subscriberIds = user.subscriberIds.filter(subscriberId => subscriberId.toString() !== targetUserId);
         await user.save();
 
         res.status(200).json({ message: "User unsubscribed from channel successfully" });

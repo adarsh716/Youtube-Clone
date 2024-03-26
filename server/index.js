@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import userRoutes from './routes/user.js';
 import videoRoutes from './routes/video.js';
 import commentsRoutes from './routes/comments.js';
-
+import { getAllvideos } from "./controllers/video.js";
 import path from 'path';
 
 const app = express();
@@ -24,6 +24,7 @@ app.use('/uploads',express.static(path.join('uploads')))
 
 app.use('/user', userRoutes);
 app.use('/video', videoRoutes);
+app.get('/video/getvideos',getAllvideos);
 app.use('/comment',commentsRoutes);
 
 const DB_URL = process.env.DB_URL;

@@ -3,11 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import Comments from "../../Components/Comments/Comments";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-// import vid from "../../Components/Video/vid.mp4";
 import LikeWatchLaterSaveBtns from "./LikeWatchLaterSaveBtns";
 import "./VideoPage.css";
 import { addToHistory } from "../../actions/History";
 import { viewVideo } from "../../actions/video";
+import { subscribeToChannel, unsubscribeFromChannel } from "../../actions/auth"; // Import the subscribe and unsubscribe actions
 
 function VideoPage() {
   const { vid } = useParams();
@@ -37,18 +37,46 @@ function VideoPage() {
       handleHistory();
     }
     handleViews();
-    // Check if the user is subscribed when the component mounts
-    // You need to replace this with your actual logic to check if the user is subscribed
-    const userIsSubscribed = false; /* Replace this with your logic to check if the user is subscribed */
+    const userIsSubscribed = CurrentUser?.result?.subscriberIds?.includes(vv?.videoChanel); /* Replace this with your logic to check if the user is subscribed */
     setIsSubscribed(userIsSubscribed);
   }, [CurrentUser]);
 
-  const handleSubscribe = () => {
-    // Logic to handle subscription
-    // You need to implement this according to your application's backend
-    // For now, let's just toggle the state
-    setIsSubscribed(!isSubscribed);
+  const toggleSubscribeBtn = () => {
+    if (!CurrentUser) {
+      alert("Please login to subscribe");
+      return;
+    }
+  
+    const userId = CurrentUser?.result?._id;
+    const channelId = vv?.videoChanel;
+  
+    if (!userId || !channelId) {
+      console.error("Invalid user ID or channel ID");
+      return;
+    }
+  
+    const updatedIsSubscribed = !isSubscribed;
+  
+    if (updatedIsSubscribed) {
+      dispatch(subscribeToChannel(userId, channelId))
+        .then(() => {
+          setIsSubscribed(updatedIsSubscribed);
+        })
+        .catch((error) => {
+          console.error("Failed to subscribe:", error);
+        });
+    } else {
+      dispatch(unsubscribeFromChannel(userId, channelId))
+        .then(() => {
+          setIsSubscribed(updatedIsSubscribed);
+        })
+        .catch((error) => {
+          console.error("Failed to unsubscribe:", error);
+        });
+    }
   };
+  
+  
 
   return (
     <>
@@ -81,13 +109,9 @@ function VideoPage() {
                   </b>
                   <p className="chanel_name_videoPage">{vv?.Uploder}</p>
                 </Link>
-                {isSubscribed ? (
-                  <button className="susbtn">Subscribed</button>
-                ) : (
-                  <button className="susbtn" onClick={handleSubscribe}>
-                    Subscribe
-                  </button>
-                )}
+                <button className="susbtn" onClick={toggleSubscribeBtn}>
+                  {isSubscribed ? "Unsubscribe" : "Subscribe"}
+                </button>
               </div>
               <div className="comments_VideoPage">
                 <h2>
@@ -105,3 +129,4 @@ function VideoPage() {
 }
 
 export default VideoPage;
+

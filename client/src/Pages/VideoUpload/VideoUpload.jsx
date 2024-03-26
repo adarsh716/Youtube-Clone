@@ -3,17 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { uploadVideo } from "../../actions/video.js";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "./VideoUpload.css";
+
 function VideoUpload({ setVidUploadPage }) {
   const CurrentUser = useSelector((state) => state.currentUserReducer);
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [videoFile, setVideoFile] = useState("");
+  const [toSubscribers, setToSubscribers] = useState(false); // State to track whether the video should be visible to subscribers only
+  const [progress, setProgress] = useState(0);
 
   const handleSetVideoFile = (e) => {
     setVideoFile(e.target.files[0]);
   };
-
-  const [progress, setProgress] = useState(0);
 
   const fileOptions = {
     onUploadProgress: (progressEvent) => {
@@ -26,20 +27,22 @@ function VideoUpload({ setVidUploadPage }) {
       }
     },
   };
+
   const uploadVideoFile = () => {
     if (!title) {
       alert("Plz Enter A Title of the video");
     } else if (!videoFile) {
       alert("Plz Attach a video File");
     } else if (videoFile.size > 100000000) {
-      alert("Plz Attch video file less than 1kb");
+      alert("Plz Attach video file less than 1kb");
     } else {
       const fileData = new FormData();
       fileData.append("file", videoFile);
       fileData.append("title", title);
       fileData.append("chanel", CurrentUser?.result._id);
       fileData.append("Uploder", CurrentUser?.result.name);
-    //   console.log(videoFile)
+      fileData.append("sub", toSubscribers); // Include the value of the checkbox
+
       dispatch(
         uploadVideo({
           fileData: fileData,
@@ -61,9 +64,7 @@ function VideoUpload({ setVidUploadPage }) {
       <div className="container2_VidUpload">
         <div className="ibox_div_vidupload">
           <input
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
+            onChange={(e) => setTitle(e.target.value)}
             type="text"
             className="ibox_vidupload"
             maxLength={30}
@@ -75,10 +76,18 @@ function VideoUpload({ setVidUploadPage }) {
               name="file"
               className="ibox_vidupload"
               style={{ fontSize: "1rem" }}
-              onChange={(e) => {
-                handleSetVideoFile(e);
-              }}
+              onChange={(e) => handleSetVideoFile(e)}
             />
+          </label>
+        </div>
+        <div className="ibox_div_vidupload">
+          <label>
+            <input
+              type="checkbox"
+              checked={toSubscribers}
+              onChange={() => setToSubscribers(!toSubscribers)}
+            />
+            Show to subscribers only
           </label>
         </div>
         <div className="ibox_div_vidupload">
